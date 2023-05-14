@@ -1,0 +1,8 @@
+.header__line {
+    display: flex;
+    /* width: calc(100% - 400px); */
+    border: 1px solid #545454;
+    color: #545454;
+    opacity: 0.7;
+    margin: 41px 0 0 0;
+}
