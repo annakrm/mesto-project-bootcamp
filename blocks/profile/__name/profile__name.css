@@ -12,17 +12,11 @@
     overflow: hidden;
 }
 
-@media screen and (max-width: 1023px) {
-    .profile__name {
-        justify-content: center;
-        margin: 22.25px 0 0 0;
-    }
-}
-
 @media screen and (max-width: 767px) {
     .profile__name {
         font-size: 27px;
         line-height: 33px;
+        text-align: center;
     }
 }
 

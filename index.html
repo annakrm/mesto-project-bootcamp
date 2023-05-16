@@ -21,7 +21,7 @@
                     <img class="profile__avatar" alt="Аватарка" src="images/avatar-image.jpg">
                     <div class="profile__info">
                         <div class="profile__name-row">
-                            <p class="profile__name">Жак-Ив Кусто</p>
+                            <h1 class="profile__name">Жак-Ив Кусто</h1>
                             <button class="profile__edit-button"><img class="profile__edit-icon" alt="Изменить данные профиля" src="images/edit-icon.svg"></button>
                         </div>
                         <p class="profile__description">Исследователь океана</p>
@@ -30,8 +30,18 @@
                     <button class="profile__add-button"><img class="profile__add-icon" alt="Добавить" src="images/add-icon.svg"></button>
             </section>
 
+            <div class="popup popup_opened">
+            <!-- <div class="popup popup_opened"> for opening -->
+                <form class="popup__container">
+                        <h2 class="popup__header">Редактировать профиль</h2>
+                        <input class="popup__input" type="text" placeholder="ФИО" value="Жак-Ив Кусто" required="">
+                        <input class="popup__input" type="text" placeholder="О себе" value="Исследователь океана" required="">
+                        <button class="popup__submit-button" type="submit">Сохранить</button>
+                        <button class="popup__close-button" type="button"><img class="popup__close-icon" alt="Закрыть" src="images/close-icon.svg"></button>
+                </form>
+            </div>
+            
             <section class="elements">
-               <!-- <div class="elements__container"> -->
                     <div class="element">
                         <img class="element__image" alt="Карачаевск" src="images/karachaevsk.jpg">
                         <div class="element__info-container">
@@ -79,7 +89,6 @@
                             <button class="element__like-button"><img class="element__like-icon" alt="Нравится" src="images/like.svg"></button>
                         </div>
                     </div>
-                <!-- </div> -->
             </section>
         </main>
 
