@@ -13,4 +13,4 @@
 
 В проекте используются расширенные возможности HTML и CSS, а также реализована адаптивная верстка для экранов популярных размеров (320, 768, 1024 и 1280).
 
-*Ссылка на GitHub Pages: https://annakrm.github.io/russian-travel-bootcamp/
+*Ссылка на GitHub Pages: https://annakrm.github.io/mesto-project-bootcamp/
