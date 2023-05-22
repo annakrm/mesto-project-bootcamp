@@ -6,8 +6,16 @@
     max-width: 336px;
 }
 
+@media screen and (max-width: 1023px) {
+    .profile__info {
+        align-items: center;
+    }
+}
+
 @media screen and (max-width: 767px) {
     .profile__info {
+        max-width: 282px;
         text-align: center;
+        gap: 14px;
     }
 }

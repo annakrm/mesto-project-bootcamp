@@ -3,6 +3,7 @@
     height: 50px;
     background: #000000;
     border-radius: 2px;
+    border: 0;
     cursor: pointer;
     color: #FFFFFF;
     font-family: 'Inter', Arial, sans-serif;
