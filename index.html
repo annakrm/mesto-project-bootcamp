@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./pages/index.css">
     <title>Mesto</title>
+
 </head>
 
 <body class="root">
@@ -32,7 +33,9 @@
             </section>
 
             <section class="elements">
-                <div class="element">
+
+
+                <!-- <div class="element">
                     <img class="element__image" alt="Карачаевск" src="images/karachaevsk.jpg">
                     <div class="element__info-container">
                         <h2 class="element__title">Карачаевск</h2>
@@ -84,7 +87,8 @@
                         <button class="element__like-button" type="button"><img class="element__like-icon" alt="Нравится"
                                 src="images/like.svg"></button>
                     </div>
-                </div>
+                </div> -->
+
             </section>
         </main>
 
@@ -92,26 +96,74 @@
             <p class="footer__info">© 2023 Mesto Russia</p>
         </footer>
 
-        <div class="popup popup_opened">
-            <!-- <div class="popup popup_opened"> for opening -->
+        <div class="popup popup_profile">
             <div class="popup__container">
                 <div class="popup__content">
                     <h3 class="popup__header">Редактировать профиль</h3>
+
+                    <button class="popup__close-button popup__close-button_profile" type="button">
+                        <img class="popup__close-icon" alt="Закрыть" src="images/close-icon.svg">
+                    </button>
+    
+                    <form class="popup__editing-form" name="profile-editing-form">
+                        <input class="popup__input input__text_type_name" type="text" placeholder="ФИО" value="" name="name" required="">
+                        <input class="popup__input input__text_type_bio" type="text" placeholder="О себе" value="" name="bio" required="">
+                        <button class="popup__submit-button" type="submit">Сохранить</button>
+                    </form>
+                </div>
+            </div>
+        </div> 
+
+        <div class="popup popup_newCard">
+            <div class="popup__container">
+                <div class="popup__content">
+                    <h3 class="popup__header">Новое место</h3>
+
+                    <button class="popup__close-button popup__close-button_new-card" type="button">
+                        <img class="popup__close-icon" alt="Закрыть" src="images/close-icon.svg">
+                    </button>
+    
+                    <form class="popup__editing-form popup__editing-form_newCard" name="profile-editing-form">
+                        <input class="popup__input input__text_type_title" type="text" placeholder="Название" value="" name="name" required="">
+                        <input class="popup__input input__text_type_link" type="url" placeholder="Ссылка на картинку" value="" name="bio" required="">
+                        <button class="popup__submit-button" type="submit">Создать</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- <div class="popup popup_image">
+            <div class="popup__container">
+                <div class="popup__content">
+                    <h3 class="popup__header">Новое место</h3>
 
                     <button class="popup__close-button" type="button">
                         <img class="popup__close-icon" alt="Закрыть" src="images/close-icon.svg">
                     </button>
     
                     <form class="popup__editing-form" name="profile-editing-form">
-                        <input class="popup__input" type="text" placeholder="ФИО" value="Жак-Ив Кусто" name="name" required="">
-                        <input class="popup__input" type="text" placeholder="О себе" value="Исследователь океана" name="bio" required="">
-                        <button class="popup__submit-button" type="submit">Сохранить</button>
+                        <input class="popup__input input__text_type_name" type="text" placeholder="Название" value="" name="name" required="">
+                        <input class="popup__input input__text_type_bio" type="text" placeholder="Ссылка на картинку" value="" name="bio" required="">
+                        <button class="popup__submit-button" type="submit">Создать</button>
                     </form>
                 </div>
             </div>
-        </div>
+        </div>-->
 
     </div>
+
+    <template id="cardTemplate">
+        <div class="element">
+            <img id="myImg" class="element__image" alt="Карачаевск" src="images/karachaevsk.jpg">
+            <div class="element__info-container">
+                <h2 class="element__title">К</h2>
+                <button class="element__like-button" type="button"><img class="element__like-icon" alt="Нравится"
+                        src="images/like.svg"></button>
+            </div>
+        </div>
+    </template>
+
+    <script src="./script.js"></script>
 </body>
 
 </html>
