@@ -1,8 +1,5 @@
-.elements {
+.card__like-image {
     display: flex;
     align-items: center;
-    flex-wrap: wrap;
-    row-gap: 20px;
-    column-gap: 17px;
     justify-content: center;
 }

@@ -1,0 +1,12 @@
+.popup__container_card {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    border-radius: 0px;
+    z-index: 15;
+    background: none;
+    align-items: center;
+    width: 75vw;
+    max-width: 75vw;
+    max-height: 75vh;
+}

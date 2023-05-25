@@ -1,4 +1,4 @@
-.element__like-button {
+.card__like-button {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -15,6 +15,6 @@
     cursor: pointer;
 }
 
-.element__like-button:hover {
+.card__like-button:hover {
     opacity: 0.5;
 }

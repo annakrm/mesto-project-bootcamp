@@ -12,7 +12,7 @@
 <body class="root">
     <div class="page">
         <header class="header">
-            <img class="header__logo" src="images/header-logo.svg" alt="Логотип" />
+            <img class="header__logo" src="images/header-logo.svg" alt="Логотип"/>
         </header>
 
         <main class="content">
@@ -28,67 +28,12 @@
                         <p class="profile__description">Исследователь океана</p>
                     </div>
                 </div>
-                <button class="profile__add-button" type="button"><img class="profile__add-icon" alt="Добавить"
-                        src="images/add-icon.svg"></button>
+                <button class="profile__add-card-button" type="button">
+                    <img class="profile__add-icon" alt="Добавить" src="images/add-icon.svg">
+                </button>
             </section>
 
-            <section class="elements">
-
-
-                <!-- <div class="element">
-                    <img class="element__image" alt="Карачаевск" src="images/karachaevsk.jpg">
-                    <div class="element__info-container">
-                        <h2 class="element__title">Карачаевск</h2>
-                        <button class="element__like-button" type="button"><img class="element__like-icon" alt="Нравится"
-                                src="images/like.svg"></button>
-                    </div>
-                </div>
-
-                <div class="element">
-                    <img class="element__image" alt="Гора Эльбрус" src="images/elbrus.jpg">
-                    <div class="element__info-container">
-                        <h2 class="element__title">Гора Эльбрус</h2>
-                        <button class="element__like-button" type="button"><img class="element__like-icon" alt="Нравится"
-                                src="images/like.svg"></button>
-                    </div>
-                </div>
-
-                <div class="element">
-                    <img class="element__image" alt="Домбай" src="images/dombai.jpg">
-                    <div class="element__info-container">
-                        <h2 class="element__title">Домбай</h2>
-                        <button class="element__like-button" type="button"><img class="element__like-icon" alt="Нравится"
-                                src="images/like.svg"></button>
-                    </div>
-                </div>
-
-                <div class="element">
-                    <img class="element__image" alt="Гора Эльбрус" src="images/karachaevsk.jpg">
-                    <div class="element__info-container">
-                        <h2 class="element__title">Гора Эльбрус</h2>
-                        <button class="element__like-button" type="button"><img class="element__like-icon" alt="Нравится"
-                                src="images/like.svg"></button>
-                    </div>
-                </div>
-
-                <div class="element">
-                    <img class="element__image" alt="Домбай" src="images/dombai.jpg">
-                    <div class="element__info-container">
-                        <h2 class="element__title">Домбай</h2>
-                        <button class="element__like-button" type="button"><img class="element__like-icon" alt="Нравится"
-                                src="images/like.svg"></button>
-                    </div>
-                </div>
-
-                <div class="element">
-                    <img class="element__image" alt="Карачаево-Черкесия" src="images/karachaevsk.jpg">
-                    <div class="element__info-container">
-                        <h2 class="element__title">Карачаево-Черкесия</h2>
-                        <button class="element__like-button" type="button"><img class="element__like-icon" alt="Нравится"
-                                src="images/like.svg"></button>
-                    </div>
-                </div> -->
-
+            <section class="cards">
             </section>
         </main>
 
@@ -101,69 +46,68 @@
                 <div class="popup__content">
                     <h3 class="popup__header">Редактировать профиль</h3>
 
-                    <button class="popup__close-button popup__close-button_profile" type="button">
+                    <button class="popup__close-button popup__close-profile-modal-button" type="button">
                         <img class="popup__close-icon" alt="Закрыть" src="images/close-icon.svg">
                     </button>
     
-                    <form class="popup__editing-form" name="profile-editing-form">
-                        <input class="popup__input input__text_type_name" type="text" placeholder="ФИО" value="" name="name" required="">
-                        <input class="popup__input input__text_type_bio" type="text" placeholder="О себе" value="" name="bio" required="">
+                    <form class="popup__form popup__profile-form" name="popup__profile-form">
+                        <input class="popup__input input__profile_name" type="text" placeholder="ФИО" value="" name="name" required="">
+                        <input class="popup__input input__profile_description" type="text" placeholder="О себе" value="" name="bio" required="">
                         <button class="popup__submit-button" type="submit">Сохранить</button>
                     </form>
                 </div>
             </div>
         </div> 
 
-        <div class="popup popup_newCard">
+        <div class="popup popup_card">
             <div class="popup__container">
                 <div class="popup__content">
                     <h3 class="popup__header">Новое место</h3>
 
-                    <button class="popup__close-button popup__close-button_new-card" type="button">
+                    <button class="popup__close-button popup__close-card-modal-button" type="button">
                         <img class="popup__close-icon" alt="Закрыть" src="images/close-icon.svg">
                     </button>
     
-                    <form class="popup__editing-form popup__editing-form_newCard" name="profile-editing-form">
-                        <input class="popup__input input__text_type_title" type="text" placeholder="Название" value="" name="name" required="">
-                        <input class="popup__input input__text_type_link" type="url" placeholder="Ссылка на картинку" value="" name="bio" required="">
+                    <form class="popup__form popup__card-form" name="popup__card-form">
+                        <input class="popup__input input__text_type_title" type="text" placeholder="Название" value="" name="title" required="">
+                        <input class="popup__input input__text_type_link" type="url" placeholder="Ссылка на картинку" value="" name="link" required="">
                         <button class="popup__submit-button" type="submit">Создать</button>
                     </form>
                 </div>
             </div>
         </div>
 
-        <!-- <div class="popup popup_image">
-            <div class="popup__container">
-                <div class="popup__content">
-                    <h3 class="popup__header">Новое место</h3>
-
-                    <button class="popup__close-button" type="button">
+        <div class="popup popup_card-view">
+            <div class="popup__container popup__container_card">
+                <div class="popup__content popup__content_card">
+                    <button class="popup__close-button popup__close-card-view-modal-button" type="button">
                         <img class="popup__close-icon" alt="Закрыть" src="images/close-icon.svg">
                     </button>
-    
-                    <form class="popup__editing-form" name="profile-editing-form">
-                        <input class="popup__input input__text_type_name" type="text" placeholder="Название" value="" name="name" required="">
-                        <input class="popup__input input__text_type_bio" type="text" placeholder="Ссылка на картинку" value="" name="bio" required="">
-                        <button class="popup__submit-button" type="submit">Создать</button>
-                    </form>
+                    <img class="popup__image-card popup__card-view-image" alt="Карачаевск" src="">
+                    <h3 class="popup__header_card popup__card-view-name">Карачаево-Черкессия</h3>
                 </div>
             </div>
-        </div>-->
-
+        </div>
     </div>
 
     <template id="cardTemplate">
-        <div class="element">
-            <img id="myImg" class="element__image" alt="Карачаевск" src="images/karachaevsk.jpg">
-            <div class="element__info-container">
-                <h2 class="element__title">К</h2>
-                <button class="element__like-button" type="button"><img class="element__like-icon" alt="Нравится"
-                        src="images/like.svg"></button>
+        <div class="card">
+            <img class="card__image" alt="" src="">
+            
+            <button class="card__delete-button" type="button">
+                <img class="card__delete-icon" alt="Удалить" src="images/trash.svg">
+            </button>
+            
+            <div class="card__info">
+                <h2 class="card__name"></h2>
+                <button class="card__like-button" type="button">
+                    <img class="card__like-image" alt="Нравится" src="images/like.svg">
+                </button>
             </div>
         </div>
     </template>
 
-    <script src="./script.js"></script>
+    <script src="./scripts/profile.js"></script>
+    <script src="./scripts/cards.js"></script>
 </body>
-
 </html>
