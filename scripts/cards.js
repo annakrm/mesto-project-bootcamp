@@ -42,6 +42,7 @@ const createCard = (cardName, url) => {
 
 	name.textContent = cardName;
 	image.src = url;
+	image.alt = cardName;
 
 	const toggleLike = () => {
 		const isLiked = likeButton.classList.toggle('.card__like-button_active');
@@ -119,6 +120,7 @@ const cardViewModal = {
 const openCardViewModal = (name, url) => {
 	cardViewModal.name.textContent = name;
 	cardViewModal.image.src = url;
+	cardViewModal.image.alt = name;
 
 	cardViewModal.ref.classList.add('popup_visible');
 	cardViewModal.ref.classList.remove('popup_hidden');

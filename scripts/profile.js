@@ -18,6 +18,11 @@ const profileModal = {
 const openProfileModal = () => {
     profileModal.ref.classList.add('popup_visible');
 	profileModal.ref.classList.remove('popup_hidden');
+
+	const { nameInput, descriptionInput } = profileModal.form;
+
+	nameInput.value = profile.name.textContent;
+    descriptionInput.value = profile.description.textContent;
 };
 
 const closeProfileModal = () => {
