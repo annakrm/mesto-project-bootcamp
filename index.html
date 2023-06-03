@@ -50,9 +50,11 @@
                         <img class="popup__close-icon" alt="Закрыть" src="images/close-icon.svg">
                     </button>
     
-                    <form class="popup__form popup__profile-form" name="popup__profile-form">
-                        <input class="popup__input input__profile_name" type="text" placeholder="ФИО" value="" name="name" required="">
-                        <input class="popup__input input__profile_description" type="text" placeholder="О себе" value="" name="bio" required="">
+                    <form class="popup__form popup__profile-form" name="popup__profile-form" novalidate>
+                        <input id="profileName" class="popup__input input__profile_name" type="text" placeholder="ФИО" value="" name="name" minlength="2" maxlength="40" required>
+                        <span id="profileName-error" class="popup__error popup__error_visible"></span>
+                        <input id="profileDescription" class="popup__input popup__input_false input__profile_description" type="text" placeholder="О себе" value="" name="bio" minlength="2" maxlength="200" required>
+                        <span id="profileDescription-error" class="popup__error popup__error_visible"></span>
                         <button class="popup__submit-button" type="submit">Сохранить</button>
                     </form>
                 </div>
@@ -68,10 +70,12 @@
                         <img class="popup__close-icon" alt="Закрыть" src="images/close-icon.svg">
                     </button>
     
-                    <form class="popup__form popup__card-form" name="popup__card-form">
-                        <input class="popup__input input__text_type_title" type="text" placeholder="Название" value="" name="title" required="">
-                        <input class="popup__input input__text_type_link" type="url" placeholder="Ссылка на картинку" value="" name="link" required="">
-                        <button class="popup__submit-button" type="submit">Создать</button>
+                    <form class="popup__form popup__card-form" name="popup__card-form" novalidate>
+                        <input id="cardName" class="popup__input <!--popup__input_false--> input__text_type_title" type="text" placeholder="Название" value="" name="title" minlength="2" maxlength="30" required>
+                        <span id="cardName-error" class="popup__error popup__error_visible"></span>
+                        <input id="cardLink" class="popup__input <!--popup__input_false--> input__text_type_link" type="url" placeholder="Ссылка на картинку" value="" name="link" required>
+                        <span id="cardLink-error" class="popup__error popup__error_visible"></span>
+                        <button class="popup__submit-button <!--popup__submit-button_disabled-->" type="submit">Создать</button>
                     </form>
                 </div>
             </div>
@@ -107,7 +111,6 @@
         </div>
     </template>
 
-    <script src="./scripts/profile.js"></script>
-    <script src="./scripts/cards.js"></script>
+    <script src="./index.js"></script>
 </body>
 </html>
