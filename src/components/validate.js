@@ -1,3 +1,11 @@
+export const validateForm = (form) => {
+	for (const inputName in form.inputs) {
+		if (!form.inputs[inputName].validity.valid) {
+			form.submitButton.classList.add('popup__submit-button_disabled');
+			break;
+		}
+	}
+}
 
 const showError = (form, input, errorMessage) => {
 	const errorElement = form.querySelector(`#${input.id}-error`);
@@ -39,8 +47,6 @@ const toggleButtonState = (inputList, submitButton) => {
 const setEventListeners = (form) => {
 	const inputList = Array.from(form.querySelectorAll('.popup__input'));
 	const submitButton = form.querySelector('.popup__submit-button');
-
-	toggleButtonState(inputList, submitButton);
 
 	inputList.forEach((input) => {
 		input.addEventListener('input', () => {
