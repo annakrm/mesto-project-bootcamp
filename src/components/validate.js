@@ -5,7 +5,7 @@ export const settings = {
 	inactiveButtonClass: 'popup__submit-button_disabled',
 	inputErrorClass: 'popup__input_type_error',
 	errorClass: 'popup__error_visible'
-  };
+};
 
 export const validateForm = (form) => {
 	for (const inputName in form.inputs) {
@@ -43,9 +43,9 @@ const checkInputValidity = (form, input, settings) => {
 
 const hasInvalidInput = (inputList) => {
 	return inputList.some((input) => {
-	  return !input.validity.valid;
+		return !input.validity.valid;
 	});
-  };
+};
 
 const toggleButtonState = (inputList, submitButton, settings) => {
 	if (hasInvalidInput(inputList, settings)) {
@@ -55,7 +55,7 @@ const toggleButtonState = (inputList, submitButton, settings) => {
 		submitButton.classList.remove(settings.inactiveButtonClass);
 		submitButton.disabled = false;
 	}
-  };
+};
 
 const setEventListeners = (form, settings) => {
 	const inputList = Array.from(form.querySelectorAll(settings.inputSelector));
@@ -72,10 +72,10 @@ const setEventListeners = (form, settings) => {
 export const enableValidation = (settings) => {
 	const formList = Array.from(document.querySelectorAll(settings.formSelector));
 	formList.forEach((form) => {
-	  form.addEventListener('submit', (evt) => {
-		evt.preventDefault();
-	  });
+		form.addEventListener('submit', (evt) => {
+			evt.preventDefault();
+		});
 
-	  setEventListeners(form, settings);
+		setEventListeners(form, settings);
 	});
 }

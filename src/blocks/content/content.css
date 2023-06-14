@@ -5,19 +5,19 @@
 }
 
 @media screen and (max-width: 1279px) {
-    .content { 
+    .content {
         width: calc(100% - 200px);
     }
 }
 
 @media screen and (max-width: 1023px) {
-    .content { 
+    .content {
         width: calc(100% - 150px);
     }
 }
 
 @media screen and (max-width: 767px) {
-    .content { 
+    .content {
         width: 100%;
     }
 }

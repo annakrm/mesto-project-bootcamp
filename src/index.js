@@ -19,44 +19,44 @@ const profileModal = {
 	ref: document.querySelector('.popup_profile'),
 	form: {
 		ref: document.querySelector('.popup__profile-form'),
-        inputs: {
-            name: document.querySelector('.input__profile_name'),
-            description: document.querySelector('.input__profile_description'),
-        },
-        submitButton: document.querySelector('.popup__profile-form .popup__submit-button'),
+		inputs: {
+			name: document.querySelector('.input__profile_name'),
+			description: document.querySelector('.input__profile_description'),
+		},
+		submitButton: document.querySelector('.popup__profile-form .popup__submit-button'),
 	},
 	openButton: document.querySelector('.profile__edit-button'),
 };
 
 const initProfile = async () => {
 	const { _id: id, name, about, avatar } = await mestoApi.profile.getProfileInfo();
-  
+
 	profile.id = id;
-    profile.name.textContent = name;
-    profile.description.textContent = about;
-    profile.avatar.src = avatar;
-  }
+	profile.name.textContent = name;
+	profile.description.textContent = about;
+	profile.avatar.src = avatar;
+}
 
 const openProfileModal = () => {
 	const { name, description } = profileModal.form.inputs;
 
 	name.value = profile.name.textContent;
-  	description.value = profile.description.textContent;
+	description.value = profile.description.textContent;
 
 	validateForm(profileModal.form);
 	openPopup(profileModal.ref);
 };
 
 const submitProfileForm = async (event) => {
-  	event.preventDefault();
+	event.preventDefault();
 
 	const { inputs, submitButton } = profileModal.form;
 
 	try {
 		toggleModalButtonLoadingState(submitButton, true);
-	
+
 		const { name, about } = await mestoApi.profile.updateProfileInfo(inputs.name.value, inputs.description.value);
-	
+
 		profile.name.textContent = name;
 		profile.description.textContent = about;
 
@@ -69,9 +69,9 @@ const submitProfileForm = async (event) => {
 }
 
 const initProfileModalListeners = () => {
-    profileModal.openButton.addEventListener('click', openProfileModal);
-    profileModal.form.ref.addEventListener('submit', submitProfileForm);
-    profileModal.ref.addEventListener('mousedown', closeOverlay);
+	profileModal.openButton.addEventListener('click', openProfileModal);
+	profileModal.form.ref.addEventListener('submit', submitProfileForm);
+	profileModal.ref.addEventListener('mousedown', closeOverlay);
 }
 
 // Profile Avatar
@@ -79,10 +79,10 @@ const profileAvatarModal = {
 	ref: document.querySelector('.popup_profile-avatar'),
 	form: {
 		ref: document.querySelector('.popup__profile-avatar-form'),
-        inputs: {
-            url: document.querySelector('.input__profile-avatar-url'),
-        },
-        submitButton: document.querySelector('.popup__profile-avatar-form .popup__submit-button'),
+		inputs: {
+			url: document.querySelector('.input__profile-avatar-url'),
+		},
+		submitButton: document.querySelector('.popup__profile-avatar-form .popup__submit-button'),
 	},
 	openButton: document.querySelector('.profile__edit-avatar-button'),
 };
@@ -99,29 +99,29 @@ const openProfileAvatarModal = () => {
 const submitProfileAvatarForm = async (event) => {
 	event.preventDefault();
 
-  const { inputs, submitButton } = profileAvatarModal.form;
+	const { inputs, submitButton } = profileAvatarModal.form;
 
-  try {
-	  toggleModalButtonLoadingState(submitButton, true);
-  
-	  await mestoApi.profile.updateProfileAvatar(inputs.url.value);
+	try {
+		toggleModalButtonLoadingState(submitButton, true);
 
-	  const { avatar } = await mestoApi.profile.getProfileInfo();
+		await mestoApi.profile.updateProfileAvatar(inputs.url.value);
 
-	  profile.avatar.src = avatar;
+		const { avatar } = await mestoApi.profile.getProfileInfo();
 
-	  closePopup(profileAvatarModal.ref);
-  } catch (err) {
-	  console.error(err);
-  } finally {
-	  toggleModalButtonLoadingState(submitButton, false);
-  }
+		profile.avatar.src = avatar;
+
+		closePopup(profileAvatarModal.ref);
+	} catch (err) {
+		console.error(err);
+	} finally {
+		toggleModalButtonLoadingState(submitButton, false);
+	}
 }
 
 const initProfileAvatarModalListeners = () => {
-    profileAvatarModal.openButton.addEventListener('click', openProfileAvatarModal);
-    profileAvatarModal.form.ref.addEventListener('submit', submitProfileAvatarForm);
-    profileAvatarModal.ref.addEventListener('mousedown', closeOverlay);
+	profileAvatarModal.openButton.addEventListener('click', openProfileAvatarModal);
+	profileAvatarModal.form.ref.addEventListener('submit', submitProfileAvatarForm);
+	profileAvatarModal.ref.addEventListener('mousedown', closeOverlay);
 }
 
 // Card
@@ -129,7 +129,7 @@ const cardDeletionModal = {
 	ref: document.querySelector('.popup_card-deletion'),
 	form: {
 		ref: document.querySelector('.popup__card-deletion-form'),
-        submitButton: document.querySelector('.popup__card-deletion-form .popup__submit-button'),
+		submitButton: document.querySelector('.popup__card-deletion-form .popup__submit-button'),
 	},
 	cardInfo: {
 		ref: null,
@@ -145,33 +145,33 @@ const openCardDeletionModal = (cardRef, cardId) => {
 const submitCardDeletionForm = async (event) => {
 	event.preventDefault();
 
-  const { form, cardInfo } = cardDeletionModal;
-  const { submitButton } = form;
+	const { form, cardInfo } = cardDeletionModal;
+	const { submitButton } = form;
 
-  try {
-	  toggleModalButtonLoadingState(submitButton, true);
-  
-	  await mestoApi.card.deleteCard(cardInfo.id);
-	  cardInfo.ref.remove();
+	try {
+		toggleModalButtonLoadingState(submitButton, true);
 
-	  closePopup(cardDeletionModal.ref);
-  } catch (err) {
-	  console.error(err);
-  } finally {
-	  toggleModalButtonLoadingState(submitButton, false);
-  }
+		await mestoApi.card.deleteCard(cardInfo.id);
+		cardInfo.ref.remove();
+
+		closePopup(cardDeletionModal.ref);
+	} catch (err) {
+		console.error(err);
+	} finally {
+		toggleModalButtonLoadingState(submitButton, false);
+	}
 }
 
 const initCardDeletionModalListeners = () => {
-    cardDeletionModal.form.ref.addEventListener('submit', submitCardDeletionForm);
-    cardDeletionModal.ref.addEventListener('mousedown', closeOverlay);
+	cardDeletionModal.form.ref.addEventListener('submit', submitCardDeletionForm);
+	cardDeletionModal.ref.addEventListener('mousedown', closeOverlay);
 }
 
 const initCards = async () => {
 	const initialCards = await mestoApi.card.getInitialCards();
-  
-	  initialCards.forEach(({ _id: cardId, name: cardName, link: url, likes, owner }) => {
-		const card = createCard({ 
+
+	initialCards.forEach(({ _id: cardId, name: cardName, link: url, likes, owner }) => {
+		const card = createCard({
 			profileId: profile.id,
 			ownerId: owner._id,
 			cardId,
@@ -182,24 +182,24 @@ const initCards = async () => {
 		});
 
 		cardsContainer.append(card);
-	  })
-  }
+	})
+}
 
 const cardModal = {
 	ref: document.querySelector('.popup_card'),
 	form: {
 		ref: document.querySelector('.popup__card-form'),
-        inputs: {
-            name: document.querySelector('.popup__card-form .input__text_type_title'),
-            url: document.querySelector('.popup__card-form .input__text_type_link'),
-        },
+		inputs: {
+			name: document.querySelector('.popup__card-form .input__text_type_title'),
+			url: document.querySelector('.popup__card-form .input__text_type_link'),
+		},
 		submitButton: document.querySelector('.popup__card-form .popup__submit-button'),
 	},
 	openButton: document.querySelector('.profile__add-card-button'),
 };
 
 const submitCardForm = async (event) => {
-    event.preventDefault();
+	event.preventDefault();
 
 	const { inputs, submitButton } = cardModal.form;
 
@@ -217,10 +217,10 @@ const submitCardForm = async (event) => {
 			likes,
 			onOpenCardDeletionModal: openCardDeletionModal,
 		});
-	
+
 		cardsContainer.prepend(newCard);
 		cardModal.form.ref.reset();
-	
+
 		closePopup(cardModal.ref);
 	} catch (err) {
 		console.error(err);
@@ -230,38 +230,38 @@ const submitCardForm = async (event) => {
 }
 
 const initCardModalListeners = () => {
-    cardModal.openButton.addEventListener('click', () => {
-        validateForm(cardModal.form);
-        openPopup(cardModal.ref)
-    });
+	cardModal.openButton.addEventListener('click', () => {
+		validateForm(cardModal.form);
+		openPopup(cardModal.ref)
+	});
 
-    cardModal.ref.addEventListener('mousedown', closeOverlay);
-    cardModal.form.ref.addEventListener('submit', submitCardForm);
+	cardModal.ref.addEventListener('mousedown', closeOverlay);
+	cardModal.form.ref.addEventListener('submit', submitCardForm);
 };
 
 const initCloseButtonListeners = () => {
-    const closeButtons = document.querySelectorAll('.popup__close-button');
+	const closeButtons = document.querySelectorAll('.popup__close-button');
 
-    closeButtons.forEach((button) => {
-      const popup = button.closest('.popup');
+	closeButtons.forEach((button) => {
+		const popup = button.closest('.popup');
 
-      button.addEventListener('click', () => closePopup(popup));
-    });
+		button.addEventListener('click', () => closePopup(popup));
+	});
 }
 
 export const initModalListeners = () => {
-    initProfileModalListeners();
+	initProfileModalListeners();
 	initProfileAvatarModalListeners();
-    initCardModalListeners();
+	initCardModalListeners();
 	initCardDeletionModalListeners();
-    initCloseButtonListeners();
+	initCloseButtonListeners();
 }
 
 const initApp = () => {
 	initProfile();
 	initCards();
 	initModalListeners();
-	enableValidation(settings); 
+	enableValidation(settings);
 }
 
 initApp();

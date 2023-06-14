@@ -16,17 +16,17 @@ export const closePopup = (popup) => {
 export const closeOverlay = (evt) => {
 	const openedPopup = document.querySelector('.popup_visible');
 
-	if (evt.target.classList.contains('popup'))  {
+	if (evt.target.classList.contains('popup')) {
 		closePopup(openedPopup);
 	}
 };
 
 export const closeByEsc = (evt) => {
-    if (evt.key === 'Escape') {
-      const openedPopup = document.querySelector('.popup_visible');
+	if (evt.key === 'Escape') {
+		const openedPopup = document.querySelector('.popup_visible');
 
-      closePopup(openedPopup);
-    }
+		closePopup(openedPopup);
+	}
 };
 
 export const toggleModalButtonLoadingState = (submitButton, isLoading) => {

@@ -1,8 +1,8 @@
 import { mestoApi } from './api';
 import { openPopup, closeOverlay } from './modal';
 
-import LIKE_IMAGE_URL  from '../images/like.svg';
-import LIKE_IMAGE_FILLED_URL  from '../images/like-filled.svg';
+import LIKE_IMAGE_URL from '../images/like.svg';
+import LIKE_IMAGE_FILLED_URL from '../images/like-filled.svg';
 
 const cardViewModal = {
 	ref: document.querySelector('.popup_card-view'),
@@ -74,7 +74,7 @@ export const createCard = ({ profileId, cardId, cardName, url, likes, ownerId, o
 	if (ownerId !== profileId) {
 		deleteButton.remove();
 	} else {
-		deleteButton.addEventListener('click', () => deleteCard(card));	
+		deleteButton.addEventListener('click', () => deleteCard(card));
 	}
 
 	return card;
