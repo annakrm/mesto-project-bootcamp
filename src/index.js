@@ -1,8 +1,8 @@
 import { cardsContainer, createCard } from './components/card';
-import { validateForm, enableValidation } from './components/validate';
-import { openPopup, closePopup, closeOverlay } from './components/modal';
+import { validateForm, enableValidation, settings } from './components/validate';
+import { openPopup, closePopup, closeOverlay, closeByEsc } from './components/modal';
 
-import './styles/index.css'; 
+import './styles/index.css';
 
 const profile = {
 	name: document.querySelector('.profile__name'),
@@ -144,15 +144,15 @@ export const openCardViewModal = (name, url) => {
 cardViewModal.ref.addEventListener('mousedown', closeOverlay);
 
 export const initModalListeners = () => {
-    initProfileModalListeners();
-    initCardModalListeners();
+    initProfileModalListeners(settings);
+    initCardModalListeners(settings);
     initCloseButtonListeners();
 }
 
 const initApp = () => {
 	initCards();
 	initModalListeners();
-	enableValidation(); 
+	enableValidation(settings); 
 }
 
 initApp();
