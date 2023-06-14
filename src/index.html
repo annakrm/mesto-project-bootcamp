@@ -16,14 +16,20 @@
         <main class="content">
             <section class="profile">
                 <div class="profile__container">
-                    <img class="profile__avatar" alt="Аватарка" src="<%=require('./images/avatar-image.jpg')%>">
+                    <div class="profile__avatar-edit-container profile__edit-avatar-button">
+                        <img class="profile__avatar" alt="Аватарка" src="">
+
+                        <div class="profile__avatar-edit-button">
+                            <img class="profile__avatar-edit-icon" alt="Изменить профиль" src="<%=require('./images/edit-icon.svg')%>">
+                        </div>
+                    </div>
                     <div class="profile__info">
                         <div class="profile__name-row">
-                            <h1 class="profile__name">Жак-Ив Кусто</h1>
+                            <h1 class="profile__name"></h1>
                             <button class="profile__edit-button" type="button"><img class="profile__edit-icon"
                                     alt="Изменить данные профиля" src="<%=require('./images/edit-icon.svg')%>"></button>
                         </div>
-                        <p class="profile__description">Исследователь океана</p>
+                        <p class="profile__description"></p>
                     </div>
                 </div>
                 <button class="profile__add-card-button" type="button">
@@ -38,6 +44,40 @@
         <footer class="footer">
             <p class="footer__info">© 2023 Mesto Russia</p>
         </footer>
+
+        <div class="popup popup_card-deletion">
+            <div class="popup__container">
+                <div class="popup__content">
+                    <h3 class="popup__header popup__header_card-deletion">Вы уверены?</h3>
+
+                    <button class="popup__close-button popup__close-card-deletion-modal-button" type="button">
+                        <img class="popup__close-icon" alt="Закрыть" src="<%=require('./images/close-icon.svg')%>">
+                    </button>
+    
+                    <form class="popup__form popup__card-deletion-form" name="popup__card-deletion-form" novalidate>
+                        <button class="popup__submit-button" type="submit">Да</button>
+                    </form>
+                </div>
+            </div>
+        </div> 
+
+        <div class="popup popup_profile-avatar">
+            <div class="popup__container">
+                <div class="popup__content">
+                    <h3 class="popup__header">Обновить аватар</h3>
+
+                    <button class="popup__close-button popup__close-profile-avatar-modal-button" type="button">
+                        <img class="popup__close-icon" alt="Закрыть" src="<%=require('./images/close-icon.svg')%>">
+                    </button>
+    
+                    <form class="popup__form popup__profile-avatar-form" name="popup__profile-avatar-form" novalidate>
+                        <input id="avatarLink" class="popup__input input__profile-avatar-url" type="url" placeholder="Ссылка на картинку" value="" name="link" required>
+                        <span id="avatarLink-error" class="popup__error popup__error_visible"></span>
+                        <button class="popup__submit-button" type="submit">Сохранить</button>
+                    </form>
+                </div>
+            </div>
+        </div> 
 
         <div class="popup popup_profile">
             <div class="popup__container">
@@ -102,9 +142,12 @@
             
             <div class="card__info">
                 <h2 class="card__name"></h2>
-                <button class="card__like-button" type="button">
-                    <img class="card__like-image" alt="Нравится" src="<%=require('./images/like.svg')%>">
-                </button>
+                <div class="card__like-column">
+                    <button class="card__like-button" type="button">
+                        <img class="card__like-image" alt="Нравится" src="<%=require('./images/like.svg')%>">
+                    </button>
+                    <div class="card__like-value"></div>
+                </div>
             </div>
         </div>
     </template>

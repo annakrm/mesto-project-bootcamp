@@ -28,3 +28,13 @@ export const closeByEsc = (evt) => {
       closePopup(openedPopup);
     }
 };
+
+export const toggleModalButtonLoadingState = (submitButton, isLoading) => {
+	if (isLoading) {
+		submitButton.disabled = true;
+		submitButton.textContent = 'Загрузка...';
+	} else {
+		submitButton.disabled = false;
+		submitButton.textContent = 'Сохранить';
+	}
+}

@@ -1,12 +1,18 @@
+import { mestoApi } from './components/api';
 import { cardsContainer, createCard } from './components/card';
 import { validateForm, enableValidation, settings } from './components/validate';
-import { openPopup, closePopup, closeOverlay, closeByEsc } from './components/modal';
+import { openPopup, closePopup, closeOverlay, toggleModalButtonLoadingState } from './components/modal';
 
 import './styles/index.css';
 
+const DEFAULT_ID = -1;
+
+// Profile
 const profile = {
+	id: DEFAULT_ID,
 	name: document.querySelector('.profile__name'),
 	description: document.querySelector('.profile__description'),
+	avatar: document.querySelector('.profile__avatar'),
 };
 
 const profileModal = {
@@ -14,33 +20,52 @@ const profileModal = {
 	form: {
 		ref: document.querySelector('.popup__profile-form'),
         inputs: {
-            nameInput: document.querySelector('.input__profile_name'),
-            descriptionInput: document.querySelector('.input__profile_description'),
+            name: document.querySelector('.input__profile_name'),
+            description: document.querySelector('.input__profile_description'),
         },
         submitButton: document.querySelector('.popup__profile-form .popup__submit-button'),
 	},
 	openButton: document.querySelector('.profile__edit-button'),
 };
 
-const openProfileModal = () => {
-	const { nameInput, descriptionInput } = profileModal.form.inputs;
+const initProfile = async () => {
+	const { _id: id, name, about, avatar } = await mestoApi.profile.getProfileInfo();
+  
+	profile.id = id;
+    profile.name.textContent = name;
+    profile.description.textContent = about;
+    profile.avatar.src = avatar;
+  }
 
-	nameInput.value = profile.name.textContent;
-    descriptionInput.value = profile.description.textContent;
+const openProfileModal = () => {
+	const { name, description } = profileModal.form.inputs;
+
+	name.value = profile.name.textContent;
+  	description.value = profile.description.textContent;
 
 	validateForm(profileModal.form);
 	openPopup(profileModal.ref);
 };
 
-const submitProfileForm = (event) => {
-    event.preventDefault();
+const submitProfileForm = async (event) => {
+  	event.preventDefault();
 
-	const { nameInput, descriptionInput } = profileModal.form.inputs;
+	const { inputs, submitButton } = profileModal.form;
 
-    profile.name.textContent = nameInput.value;
-    profile.description.textContent = descriptionInput.value;
+	try {
+		toggleModalButtonLoadingState(submitButton, true);
+	
+		const { name, about } = await mestoApi.profile.updateProfileInfo(inputs.name.value, inputs.description.value);
+	
+		profile.name.textContent = name;
+		profile.description.textContent = about;
 
-    closePopup(profileModal.ref);
+		closePopup(profileModal.ref);
+	} catch (err) {
+		console.error(err);
+	} finally {
+		toggleModalButtonLoadingState(submitButton, false);
+	}
 }
 
 const initProfileModalListeners = () => {
@@ -48,6 +73,117 @@ const initProfileModalListeners = () => {
     profileModal.form.ref.addEventListener('submit', submitProfileForm);
     profileModal.ref.addEventListener('mousedown', closeOverlay);
 }
+
+// Profile Avatar
+const profileAvatarModal = {
+	ref: document.querySelector('.popup_profile-avatar'),
+	form: {
+		ref: document.querySelector('.popup__profile-avatar-form'),
+        inputs: {
+            url: document.querySelector('.input__profile-avatar-url'),
+        },
+        submitButton: document.querySelector('.popup__profile-avatar-form .popup__submit-button'),
+	},
+	openButton: document.querySelector('.profile__edit-avatar-button'),
+};
+
+const openProfileAvatarModal = () => {
+	const { url } = profileAvatarModal.form.inputs;
+
+	url.value = profile.avatar.src;
+
+	validateForm(profileAvatarModal.form);
+	openPopup(profileAvatarModal.ref);
+};
+
+const submitProfileAvatarForm = async (event) => {
+	event.preventDefault();
+
+  const { inputs, submitButton } = profileAvatarModal.form;
+
+  try {
+	  toggleModalButtonLoadingState(submitButton, true);
+  
+	  await mestoApi.profile.updateProfileAvatar(inputs.url.value);
+
+	  const { avatar } = await mestoApi.profile.getProfileInfo();
+
+	  profile.avatar.src = avatar;
+
+	  closePopup(profileAvatarModal.ref);
+  } catch (err) {
+	  console.error(err);
+  } finally {
+	  toggleModalButtonLoadingState(submitButton, false);
+  }
+}
+
+const initProfileAvatarModalListeners = () => {
+    profileAvatarModal.openButton.addEventListener('click', openProfileAvatarModal);
+    profileAvatarModal.form.ref.addEventListener('submit', submitProfileAvatarForm);
+    profileAvatarModal.ref.addEventListener('mousedown', closeOverlay);
+}
+
+// Card
+const cardDeletionModal = {
+	ref: document.querySelector('.popup_card-deletion'),
+	form: {
+		ref: document.querySelector('.popup__card-deletion-form'),
+        submitButton: document.querySelector('.popup__card-deletion-form .popup__submit-button'),
+	},
+	cardInfo: {
+		ref: null,
+		id: DEFAULT_ID,
+	},
+};
+
+const openCardDeletionModal = (cardRef, cardId) => {
+	cardDeletionModal.cardInfo = { ref: cardRef, id: cardId };
+	openPopup(cardDeletionModal.ref);
+};
+
+const submitCardDeletionForm = async (event) => {
+	event.preventDefault();
+
+  const { form, cardInfo } = cardDeletionModal;
+  const { submitButton } = form;
+
+  try {
+	  toggleModalButtonLoadingState(submitButton, true);
+  
+	  await mestoApi.card.deleteCard(cardInfo.id);
+	  cardInfo.ref.remove();
+
+	  closePopup(cardDeletionModal.ref);
+  } catch (err) {
+	  console.error(err);
+  } finally {
+	  toggleModalButtonLoadingState(submitButton, false);
+  }
+}
+
+const initCardDeletionModalListeners = () => {
+    cardDeletionModal.form.ref.addEventListener('submit', submitCardDeletionForm);
+    cardDeletionModal.ref.addEventListener('mousedown', closeOverlay);
+}
+
+const initCards = async () => {
+	const initialCards = await mestoApi.card.getInitialCards();
+  
+	  initialCards.forEach(({ _id: cardId, name: cardName, link: url, likes, owner }) => {
+		const card = createCard({ 
+			profileId: profile.id,
+			ownerId: owner._id,
+			cardId,
+			cardName,
+			url,
+			likes,
+			onOpenCardDeletionModal: openCardDeletionModal,
+		});
+
+		cardsContainer.append(card);
+	  })
+  }
 
 const cardModal = {
 	ref: document.querySelector('.popup_card'),
@@ -62,16 +198,35 @@ const cardModal = {
 	openButton: document.querySelector('.profile__add-card-button'),
 };
 
-const submitCardForm = (event) => {
+const submitCardForm = async (event) => {
     event.preventDefault();
 
-	const { name, url } = cardModal.form.inputs;
-	const newCard = createCard(name.value, url.value);
+	const { inputs, submitButton } = cardModal.form;
 
-    cardsContainer.prepend(newCard);
-    cardModal.form.ref.reset();
+	try {
+		toggleModalButtonLoadingState(submitButton, true);
 
-    closePopup(cardModal.ref);
+		const { _id: cardId, name: cardName, link: url, likes, owner } = await mestoApi.card.addCard(inputs.name.value, inputs.url.value);
+
+		const newCard = createCard({
+			profileId: profile.id,
+			ownerId: owner._id,
+			cardId,
+			cardName,
+			url,
+			likes,
+			onOpenCardDeletionModal: openCardDeletionModal,
+		});
+	
+		cardsContainer.prepend(newCard);
+		cardModal.form.ref.reset();
+	
+		closePopup(cardModal.ref);
+	} catch (err) {
+		console.error(err);
+	} finally {
+		toggleModalButtonLoadingState(submitButton, false);
+	}
 }
 
 const initCardModalListeners = () => {
@@ -94,62 +249,16 @@ const initCloseButtonListeners = () => {
     });
 }
 
-const initialCards = [
-    {
-      name: 'Архыз',
-      url: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-    },
-    {
-      name: 'Челябинская область',
-      url: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-    },
-    {
-      name: 'Иваново',
-      url: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-    },
-    {
-      name: 'Камчатка',
-      url: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-    },
-    {
-      name: 'Холмогорский район',
-      url: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-    },
-    {
-      name: 'Байкал',
-      url: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-    }
-];
-
-export const initCards = () => {
-	initialCards.forEach(({ name, url }) => {
-		const card = createCard(name, url);
-		cardsContainer.append(card);
-	})
-}
-
-export const cardViewModal = {
-	ref: document.querySelector('.popup_card-view'),
-	name: document.querySelector('.popup__card-view-name'),
-	image: document.querySelector('.popup__card-view-image'),
-};
-export const openCardViewModal = (name, url) => {
-	cardViewModal.name.textContent = name;
-	cardViewModal.image.src = url;
-	cardViewModal.image.alt = name;
-
-	openPopup(cardViewModal.ref);
-};
-
-cardViewModal.ref.addEventListener('mousedown', closeOverlay);
-
 export const initModalListeners = () => {
-    initProfileModalListeners(settings);
-    initCardModalListeners(settings);
+    initProfileModalListeners();
+	initProfileAvatarModalListeners();
+    initCardModalListeners();
+	initCardDeletionModalListeners();
     initCloseButtonListeners();
 }
 
 const initApp = () => {
+	initProfile();
 	initCards();
 	initModalListeners();
 	enableValidation(settings); 
