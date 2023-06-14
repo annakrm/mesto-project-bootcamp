@@ -43,10 +43,17 @@ const updateProfileInfo = (name, about) => {
 }
 
 const updateProfileAvatar = (avatar) => {
-  fetch(`${apiConfig.baseUrl}/users/me/avatar`, {
+  return fetch(`${apiConfig.baseUrl}/users/me/avatar`, {
     method: 'PATCH',
     headers: apiConfig.headers,
     body: JSON.stringify({ avatar })
+  })
+  .then(res => {
+    if (res.ok) {
+      return res.json();
+    }
+
+    return Promise.reject(`Ошибка: ${res.status}`);
   })
     .catch((err) => {
       console.error(err);

@@ -104,9 +104,7 @@ const submitProfileAvatarForm = async (event) => {
 	try {
 		toggleModalButtonLoadingState(submitButton, true);
 
-		await mestoApi.profile.updateProfileAvatar(inputs.url.value);
-
-		const { avatar } = await mestoApi.profile.getProfileInfo();
+		const { avatar } = await mestoApi.profile.updateProfileAvatar(inputs.url.value);
 
 		profile.avatar.src = avatar;
 
