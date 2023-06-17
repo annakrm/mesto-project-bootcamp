@@ -1,16 +1,14 @@
 import { mestoApi } from './api';
-import { openPopup, closeOverlay } from './modal';
+import { openPopup } from './modal';
 
 import LIKE_IMAGE_URL from '../images/like.svg';
 import LIKE_IMAGE_FILLED_URL from '../images/like-filled.svg';
 
-const cardViewModal = {
+export const cardViewModal = {
 	ref: document.querySelector('.popup_card-view'),
 	name: document.querySelector('.popup__card-view-name'),
 	image: document.querySelector('.popup__card-view-image'),
 };
-
-cardViewModal.ref.addEventListener('mousedown', closeOverlay);
 
 const openCardViewModal = (name, url) => {
 	cardViewModal.name.textContent = name;
@@ -51,17 +49,20 @@ export const createCard = ({ profileId, cardId, cardName, url, likes, ownerId, o
 	const toggleLike = async () => {
 		const isLiked = likeButton.classList.toggle('.card__like-button_active');
 
-		if (isLiked) {
-			const { likes: updatedLikesArray } = await mestoApi.card.likeCard(cardId);
-
-			likeValue.textContent = updatedLikesArray.length;
-		} else {
-			const { likes: updatedLikesArray } = await mestoApi.card.unlikeCard(cardId);
-
-			likeValue.textContent = updatedLikesArray.length;
+		const handleToggleLikeRequest = (cardId) => {
+			if (isLiked) {
+				return mestoApi.card.likeCard(cardId).catch((err) => { console.error(err); });
+			} 
+			
+			return mestoApi.card.unlikeCard(cardId);
 		}
 
-		likeButtonImage.src = isLiked ? LIKE_IMAGE_FILLED_URL : LIKE_IMAGE_URL;
+		await handleToggleLikeRequest(cardId)
+			.then(({ likes: updatedLikesArray }) => {
+				likeValue.textContent = updatedLikesArray.length;
+				likeButtonImage.src = isLiked ? LIKE_IMAGE_FILLED_URL : LIKE_IMAGE_URL;
+			})
+			.catch((err) => { console.error(err); })
 	};
 
 	const deleteCard = (card) => {

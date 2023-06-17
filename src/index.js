@@ -1,7 +1,8 @@
 import { mestoApi } from './components/api';
-import { cardsContainer, createCard } from './components/card';
+import { cardsContainer, createCard, cardViewModal } from './components/card';
 import { validateForm, enableValidation, settings } from './components/validate';
-import { openPopup, closePopup, closeOverlay, toggleModalButtonLoadingState } from './components/modal';
+import { openPopup, closePopup, closeOverlay } from './components/modal';
+import { toggleModalButtonLoadingState } from './components/utils';
 
 import './styles/index.css';
 
@@ -28,9 +29,7 @@ const profileModal = {
 	openButton: document.querySelector('.profile__edit-button'),
 };
 
-const initProfile = async () => {
-	const { _id: id, name, about, avatar } = await mestoApi.profile.getProfileInfo();
-
+const initProfile = async ({ _id: id, name, about, avatar }) => {
 	profile.id = id;
 	profile.name.textContent = name;
 	profile.description.textContent = about;
@@ -55,7 +54,7 @@ const submitProfileForm = async (event) => {
 	try {
 		toggleModalButtonLoadingState(submitButton, true);
 
-		const { name, about } = await mestoApi.profile.updateProfileInfo(inputs.name.value, inputs.description.value);
+		const { name, about } = await mestoApi.profile.updateProfileInfo(inputs.name.value, inputs.description.value).catch((err) => { console.error(err); });
 
 		profile.name.textContent = name;
 		profile.description.textContent = about;
@@ -104,7 +103,7 @@ const submitProfileAvatarForm = async (event) => {
 	try {
 		toggleModalButtonLoadingState(submitButton, true);
 
-		const { avatar } = await mestoApi.profile.updateProfileAvatar(inputs.url.value);
+		const { avatar } = await mestoApi.profile.updateProfileAvatar(inputs.url.value).catch((err) => { console.error(err); });
 
 		profile.avatar.src = avatar;
 
@@ -149,7 +148,7 @@ const submitCardDeletionForm = async (event) => {
 	try {
 		toggleModalButtonLoadingState(submitButton, true);
 
-		await mestoApi.card.deleteCard(cardInfo.id);
+		await mestoApi.card.deleteCard(cardInfo.id).catch((err) => { console.error(err); });
 		cardInfo.ref.remove();
 
 		closePopup(cardDeletionModal.ref);
@@ -165,9 +164,7 @@ const initCardDeletionModalListeners = () => {
 	cardDeletionModal.ref.addEventListener('mousedown', closeOverlay);
 }
 
-const initCards = async () => {
-	const initialCards = await mestoApi.card.getInitialCards();
-
+const initCards = async (initialCards) => {
 	initialCards.forEach(({ _id: cardId, name: cardName, link: url, likes, owner }) => {
 		const card = createCard({
 			profileId: profile.id,
@@ -204,7 +201,7 @@ const submitCardForm = async (event) => {
 	try {
 		toggleModalButtonLoadingState(submitButton, true);
 
-		const { _id: cardId, name: cardName, link: url, likes, owner } = await mestoApi.card.addCard(inputs.name.value, inputs.url.value);
+		const { _id: cardId, name: cardName, link: url, likes, owner } = await mestoApi.card.addCard(inputs.name.value, inputs.url.value).catch((err) => { console.error(err); });
 
 		const newCard = createCard({
 			profileId: profile.id,
@@ -237,6 +234,10 @@ const initCardModalListeners = () => {
 	cardModal.form.ref.addEventListener('submit', submitCardForm);
 };
 
+const initCardViewModalListeners = () => {
+	cardViewModal.ref.addEventListener('mousedown', closeOverlay);
+};
+
 const initCloseButtonListeners = () => {
 	const closeButtons = document.querySelectorAll('.popup__close-button');
 
@@ -251,15 +252,22 @@ export const initModalListeners = () => {
 	initProfileModalListeners();
 	initProfileAvatarModalListeners();
 	initCardModalListeners();
+	initCardViewModalListeners();
 	initCardDeletionModalListeners();
 	initCloseButtonListeners();
 }
 
 const initApp = () => {
-	initProfile();
-	initCards();
-	initModalListeners();
-	enableValidation(settings);
+	Promise.all([
+		mestoApi.profile.getProfileInfo(),
+		mestoApi.card.getInitialCards(),
+	])
+	.then(([profileInfo, initialCards]) => {
+		initProfile(profileInfo);
+		initCards(initialCards);
+		initModalListeners();
+		enableValidation(settings);
+	}).catch((err) => { console.error(`Ошибка: ${err}`); });;
 }
 
 initApp();
