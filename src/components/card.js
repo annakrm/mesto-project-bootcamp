@@ -42,23 +42,25 @@ export const createCard = ({ profileId, cardId, cardName, url, likes, ownerId, o
 	const isAlreadyLiked = Boolean(likes.find(({ _id: id }) => id === profileId));
 
 	if (isAlreadyLiked) {
-		likeButton.classList.toggle('.card__like-button_active');
+		likeButton.classList.toggle('card__like-button_active');
 		likeButtonImage.src = LIKE_IMAGE_FILLED_URL;
 	}
 
 	const toggleLike = async () => {
-		const isLiked = likeButton.classList.toggle('.card__like-button_active');
-
 		const handleToggleLikeRequest = (cardId) => {
+			const isLiked = likeButton.classList.contains('card__like-button_active');
+
 			if (isLiked) {
-				return mestoApi.card.likeCard(cardId).catch((err) => { console.error(err); });
+				return mestoApi.card.unlikeCard(cardId).catch((err) => { console.error(err); });
 			} 
 			
-			return mestoApi.card.unlikeCard(cardId);
+			return mestoApi.card.likeCard(cardId);
 		}
 
 		await handleToggleLikeRequest(cardId)
 			.then(({ likes: updatedLikesArray }) => {
+				const isLiked = likeButton.classList.toggle('card__like-button_active');;
+
 				likeValue.textContent = updatedLikesArray.length;
 				likeButtonImage.src = isLiked ? LIKE_IMAGE_FILLED_URL : LIKE_IMAGE_URL;
 			})
