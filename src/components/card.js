@@ -51,7 +51,7 @@ export const createCard = ({ profileId, cardId, cardName, url, likes, ownerId, o
 			const isLiked = likeButton.classList.contains('card__like-button_active');
 
 			if (isLiked) {
-				return mestoApi.card.unlikeCard(cardId).catch((err) => { console.error(err); });
+				return mestoApi.card.unlikeCard(cardId)
 			} 
 			
 			return mestoApi.card.likeCard(cardId);

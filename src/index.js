@@ -54,7 +54,7 @@ const submitProfileForm = async (event) => {
 	try {
 		toggleModalButtonLoadingState(submitButton, true);
 
-		const { name, about } = await mestoApi.profile.updateProfileInfo(inputs.name.value, inputs.description.value).catch((err) => { console.error(err); });
+		const { name, about } = await mestoApi.profile.updateProfileInfo(inputs.name.value, inputs.description.value);
 
 		profile.name.textContent = name;
 		profile.description.textContent = about;
@@ -103,7 +103,7 @@ const submitProfileAvatarForm = async (event) => {
 	try {
 		toggleModalButtonLoadingState(submitButton, true);
 
-		const { avatar } = await mestoApi.profile.updateProfileAvatar(inputs.url.value).catch((err) => { console.error(err); });
+		const { avatar } = await mestoApi.profile.updateProfileAvatar(inputs.url.value);
 
 		profile.avatar.src = avatar;
 
@@ -148,7 +148,7 @@ const submitCardDeletionForm = async (event) => {
 	try {
 		toggleModalButtonLoadingState(submitButton, true);
 
-		await mestoApi.card.deleteCard(cardInfo.id).catch((err) => { console.error(err); });
+		await mestoApi.card.deleteCard(cardInfo.id)
 		cardInfo.ref.remove();
 
 		closePopup(cardDeletionModal.ref);
@@ -201,7 +201,7 @@ const submitCardForm = async (event) => {
 	try {
 		toggleModalButtonLoadingState(submitButton, true);
 
-		const { _id: cardId, name: cardName, link: url, likes, owner } = await mestoApi.card.addCard(inputs.name.value, inputs.url.value).catch((err) => { console.error(err); });
+		const { _id: cardId, name: cardName, link: url, likes, owner } = await mestoApi.card.addCard(inputs.name.value, inputs.url.value)
 
 		const newCard = createCard({
 			profileId: profile.id,
